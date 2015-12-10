@@ -67,6 +67,15 @@ public:
         exists = true;
     }
 
+    template<class Iterator>
+    double error(Iterator begin, Iterator end) {
+        double error = 0;
+        for (Iterator it = begin; it != end; it++) {
+            error += std::pow(cv::norm(c - *it) - r, 2);
+        }
+
+        return error;
+    }
 };
 
 #endif //GENERIC_RANSAC_CIRCLE_H_H

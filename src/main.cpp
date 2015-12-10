@@ -15,7 +15,7 @@ int main(int argc, char **argv) {
 
     demo.demo();
 //    for (int i = 0; i < 100; i++) {
-//        cout << demo.randOnCircle(C) << endl;
+//        cout << demo.randOnCircleWithNoise(C) << endl;
 //    }
     return 0;
 }
