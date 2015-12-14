@@ -9,6 +9,7 @@
 #include <random>
 #include <vector>
 #include "util/image.h"
+#include "../ransac.h"
 
 using std::vector;
 

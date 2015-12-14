@@ -14,10 +14,11 @@
 
 using std::vector;
 
-template<class Point, class Model, int N, class DistancePointModel, class ModelFromPoints>
+template<class Point, class Model, int N>
 class RANSAC {
 
-    RANSAC(Model m, vector<Point> points, int iterations, double error, int minimum, DistancePointModel dpm, ModelFromPoints mfp) :
+public:
+    RANSAC(Model m, vector<Point> points, int iterations, double error, int minimum) :
             model(m), data(points), k(iterations), t(error), d(minimum) {
     }
 
@@ -47,25 +48,35 @@ class RANSAC {
             for (int u : indices) {
                 maybeInliers.push_back(data[u]);
             }
-            Model M = ModelFromPoints(maybeInliers);
+            bool exists;
+            Model M(maybeInliers.begin(), maybeInliers.end(), exists);
+
+            if(!exists) {
+                std::cout << "Not enough point to fit the model";
+                return model;
+            }
 
             std::vector<Point> alsoInliers;
             for (int index = 0; index < data.size(); index++) {
                 if (indices.find(index) == indices.end()) {
-                    if (DistancePointModel(M, data[index]) < t) {
+                    if (M.distance(data[index]) < t) {
                         alsoInliers.push_back(data[index]);
                     }
                 }
             }
-
+            std::cout << bestError << std::endl;
             if (alsoInliers.size() > d) {
                 for (Point p : alsoInliers) {
                     maybeInliers.push_back(p);
                 }
 
-                Model betterModel = ModelFromPoints(maybeInliers);
+                Model betterModel(maybeInliers.begin(), maybeInliers.end(), exists);
+                if(!exists) {
+                    std::cout << "Not enough points to fit the model";
+                    return model;
+                }
 
-                double error = modelError(betterModel, maybeInliers);
+                double error = M.error(maybeInliers.begin(), maybeInliers.end());
 
                 if (error < bestError) {
                     bestFit = betterModel;
@@ -84,7 +95,7 @@ class RANSAC {
         double error = 0;
 
         for (Point p: points) {
-            error += DistancePointModel(m, p);
+            error += m.distance(p);
         }
         return error;
     }

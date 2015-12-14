@@ -26,6 +26,13 @@ void CircleDemo::demo() {
 
     bool exists;
     Circle fit(points.begin(), points.end(), exists);
+
+
+
+    RANSAC<Point2d, Circle, 10> r(fit, points, 20, 10, 10);
+
+    fit = r.findBestFit();
+
     if (exists) {
         circle(img, fit.c, std::round(fit.r), Scalar(255, 0, 0), 1);
     }
