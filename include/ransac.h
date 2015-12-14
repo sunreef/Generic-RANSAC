@@ -35,7 +35,7 @@ public:
         }
 
         int i = 0;
-        Model bestFit;
+        Model bestFit = model;
         double bestError = std::numeric_limits<double>::max();
 
         while (i < k) {
@@ -48,11 +48,11 @@ public:
             for (int u : indices) {
                 maybeInliers.push_back(data[u]);
             }
-            bool exists;
+            bool exists = true;
             Model M(maybeInliers.begin(), maybeInliers.end(), exists);
 
             if(!exists) {
-                std::cout << "Not enough point to fit the model";
+                std::cout << "Not enough points to fit the model";
                 return model;
             }
 
@@ -64,7 +64,7 @@ public:
                     }
                 }
             }
-            std::cout << bestError << std::endl;
+
             if (alsoInliers.size() > d) {
                 for (Point p : alsoInliers) {
                     maybeInliers.push_back(p);

@@ -29,8 +29,7 @@ void CircleDemo::demo() {
 
 
 
-    RANSAC<Point2d, Circle, 10> r(fit, points, 20, 10, 10);
-
+    RANSAC<Point2d, Circle, 10> r(fit, points, 20, 10, 20);
     fit = r.findBestFit();
 
     if (exists) {
