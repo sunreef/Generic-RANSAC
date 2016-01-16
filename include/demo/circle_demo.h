@@ -9,13 +9,14 @@
 #include <random>
 #include <vector>
 #include "util/image.h"
+#include "ransac.h"
 
 using std::vector;
 
 class CircleDemo {
 public:
 
-    CircleDemo() : engine(std::random_device{}()), dis(), norm(0, 9) { }
+    CircleDemo() : engine(std::random_device{}()), dis(), norm(0, 5) { }
 
     inline Point2d randOnCircle(const Circle &C) {
         double t = 2 * M_PI * dis(engine);
@@ -38,6 +39,28 @@ private:
     std::uniform_real_distribution<double> dis;
     std::normal_distribution<double> norm;
     std::default_random_engine engine;
+};
+
+
+struct CircleFromPoints {
+    template<class Iterator>
+    Circle operator() (Iterator begin, Iterator end, bool &exists) {
+        return Circle(begin, end, exists);
+    }
+};
+
+struct DistancePointFromCircle {
+    double operator()(Circle c, Point2d p) {
+        return c.distance(p);
+    }
+};
+
+
+struct CircleError {
+    template<class Iterator>
+    double operator()(Circle c, Iterator begin, Iterator end) {
+        return c.error(begin, end);
+    }
 };
 
 #endif //GENERIC_RANSAC_CIRCLE_DEMO_H

@@ -76,6 +76,10 @@ public:
 
         return error;
     }
+
+    double distance(Point2d p) {
+        return std::pow(cv::norm(c - p) - r, 2);
+    }
 };
 
 #endif //GENERIC_RANSAC_CIRCLE_H_H

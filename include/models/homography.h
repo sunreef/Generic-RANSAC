@@ -1,7 +1,3 @@
-//
-// Created by antoinewdg on 12/10/15.
-//
-
 #ifndef GENERIC_RANSAC_HOMOGRAPHY_H
 #define GENERIC_RANSAC_HOMOGRAPHY_H
 
@@ -36,7 +32,6 @@ public:
 
     }
 
-    
 
     Point2f operator()(const Point2f &p) {
         Mat m(3, 1, CV_32F);
@@ -101,6 +96,7 @@ private:
     }
 
     Mat h;
+
 };
 
 #endif //GENERIC_RANSAC_HOMOGRAPHY_H

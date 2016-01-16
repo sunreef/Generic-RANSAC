@@ -13,6 +13,7 @@ int main(int argc, char **argv) {
     CircleDemo demo;
     Circle C(Point2d(0, 0), 1);
 
+
     demo.demo();
 //    for (int i = 0; i < 100; i++) {
 //        cout << demo.randOnCircleWithNoise(C) << endl;
