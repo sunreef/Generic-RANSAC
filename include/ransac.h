@@ -14,7 +14,7 @@
 
 using std::vector;
 
-template<class Point, class Model, int N, class DistancePointModel, class ModelFromPoints>
+    template<class Point, class Model, int N, class DistancePointModel, class ModelFromPoints>
 class RANSAC {
 
     RANSAC(Model m, vector<Point> points, int iterations, double error, int minimum, DistancePointModel dpm, ModelFromPoints mfp) :
