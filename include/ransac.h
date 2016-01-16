@@ -14,12 +14,15 @@
 
 using std::vector;
 
-template<class Point, class Model, int N>
+
+template<class Point, class Model, class ModelFromPoints, class DistancePointFromModel, class ModelError>
 class RANSAC {
 
 public:
-    RANSAC(Model m, vector<Point> points, int iterations, double error, int minimum) :
-            model(m), data(points), k(iterations), t(error), d(minimum) {
+    RANSAC(Model m, int n, vector<Point> points, int iterations, double error, int minimum, ModelFromPoints mfp,
+           DistancePointFromModel dpm, ModelError me) :
+            N(n), model(m), data(points), k(iterations), t(error), d(minimum), modelFromPoints(mfp),
+            distancePointModel(dpm), modelError(me) {
     }
 
     Model model;
@@ -27,6 +30,12 @@ public:
     int k;
     double t;
     int d;
+    int N;
+    ModelFromPoints modelFromPoints;
+    DistancePointFromModel distancePointModel;
+    ModelError modelError;
+
+    vector<Point> inliers;
 
     Model findBestFit() {
 
@@ -49,9 +58,9 @@ public:
                 maybeInliers.push_back(data[u]);
             }
             bool exists = true;
-            Model M(maybeInliers.begin(), maybeInliers.end(), exists);
+            Model M = modelFromPoints(maybeInliers.begin(), maybeInliers.end(), exists);
 
-            if(!exists) {
+            if (!exists) {
                 std::cout << "Not enough points to fit the model";
                 return model;
             }
@@ -59,7 +68,7 @@ public:
             std::vector<Point> alsoInliers;
             for (int index = 0; index < data.size(); index++) {
                 if (indices.find(index) == indices.end()) {
-                    if (M.distance(data[index]) < t) {
+                    if (distancePointModel(M, data[index]) < t) {
                         alsoInliers.push_back(data[index]);
                     }
                 }
@@ -70,17 +79,18 @@ public:
                     maybeInliers.push_back(p);
                 }
 
-                Model betterModel(maybeInliers.begin(), maybeInliers.end(), exists);
-                if(!exists) {
+                Model betterModel = modelFromPoints(maybeInliers.begin(), maybeInliers.end(), exists);
+                if (!exists) {
                     std::cout << "Not enough points to fit the model";
                     return model;
                 }
 
-                double error = M.error(maybeInliers.begin(), maybeInliers.end());
+                double error = modelError(M, maybeInliers.begin(), maybeInliers.end());
 
                 if (error < bestError) {
                     bestFit = betterModel;
                     bestError = error;
+                    inliers = maybeInliers;
                 }
             }
 
@@ -91,13 +101,8 @@ public:
 
     }
 
-    double modelError(Model m, std::vector<Point> points) {
-        double error = 0;
-
-        for (Point p: points) {
-            error += m.distance(p);
-        }
-        return error;
+    const vector<Point> &getInliers() {
+        return inliers;
     }
 };
 

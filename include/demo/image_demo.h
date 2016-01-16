@@ -9,12 +9,9 @@
 class ImageDemo {
 
 
-
 public:
 
 };
-
-
 
 
 #endif //GENERIC_RANSAC_IMAGE_DEMO_H
