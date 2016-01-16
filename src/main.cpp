@@ -11,16 +11,12 @@ using std::endl;
 
 int main(int argc, char **argv) {
 
-//    CircleDemo demo;
-//    Circle C(Point2d(0, 0), 1);
-
-    ImageDemo demo;
+    CircleDemo demo;
+    ImageDemo demo2;
 
     demo.demo();
 
+    demo2.demo();
 
-//    for (int i = 0; i < 100; i++) {
-//        cout << demo.randOnCircleWithNoise(C) << endl;
-//    }
     return 0;
 }

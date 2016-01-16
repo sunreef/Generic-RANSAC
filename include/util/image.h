@@ -33,8 +33,6 @@ public:
     inline T operator()(int x, int y) const {
         if (y < 0 || y >= rows || x < 0 || x > cols) {
             std::cout << "Bad coordinates " << x << ", " << y << std::endl;
-//            imshow("Error", *this);
-//            waitKey();
         }
         return at<T>(y, x);
     }
@@ -42,8 +40,6 @@ public:
     inline T &operator()(int x, int y) {
         if (y < 0 || y >= rows || x < 0 || x > cols) {
             std::cout << "Bad coordinates " << x << ", " << y << std::endl;
-//            imshow("Error", *this);
-//            waitKey();
         }
         return at<T>(y, x);
     }

@@ -11,7 +11,7 @@ vector<Point2d> CircleDemo::randOnCircleWithNoise(const Circle &C, int N) {
 
 void CircleDemo::demo() {
 
-    for (int t = 0; t < 100; t++) {
+    for (int t = 0; t < 3; t++) {
         Circle C(Point2d(300, 300), 100);
         vector<Point2d> points = randOnCircleWithNoise(C, 100);
 
@@ -39,8 +39,6 @@ void CircleDemo::demo() {
         }
         for (Point2d &p : points) {
             circle(img, p, 2, Scalar(0, 255, 0), 2);
-//        imshow("ded", img);
-//        waitKey();
         }
 
 
