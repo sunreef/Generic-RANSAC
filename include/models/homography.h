@@ -25,7 +25,11 @@ public:
 
         Mat A = createAMatrix(begin, end);
 
+
+
         cv::SVD::solveZ(A, h);
+
+        error = cv::norm(A*h);
         for (int j = 0; j < 9; j++) {
             H.at<float>(j / 3, j % 3) = h.at<float>(0, j);
         }
@@ -33,7 +37,7 @@ public:
     }
 
 
-    Point2f operator()(const Point2f &p) {
+    Point2f operator()(const Point2f &p) const{
         Mat m(3, 1, CV_32F);
         m.at<float>(0, 0) = p.x;
         m.at<float>(1, 0) = p.y;
@@ -45,8 +49,10 @@ public:
 
 
     Mat H;
+    float error;
 
 private:
+
 
     inline Mat axT(Pair p) {
         Mat x(1, 9, CV_32F);

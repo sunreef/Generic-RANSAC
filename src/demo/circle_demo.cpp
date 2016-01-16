@@ -26,7 +26,7 @@ void CircleDemo::demo() {
         Circle fit(points.begin(), points.end(), exists);
 
 
-        RANSAC<Point2d, Circle, CircleFromPoints, DistancePointFromCircle, CircleError> r(fit, 3, points, 100, 20, 40,
+        RANSAC<Circle, Point2d, CircleFromPoints, DistancePointFromCircle, CircleError> r(3, points, 100, 20, 40,
                                                                                           CircleFromPoints(),
                                                                                           DistancePointFromCircle(),
                                                                                           CircleError());

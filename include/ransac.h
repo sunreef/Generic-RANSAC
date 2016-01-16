@@ -15,13 +15,13 @@
 using std::vector;
 
 
-template<class Point, class Model, class ModelFromPoints, class DistancePointFromModel, class ModelError>
+template<class Model,class Point,  class ModelFromPoints, class DistancePointFromModel, class ModelError>
 class RANSAC {
 
 public:
-    RANSAC(Model m, int n, vector<Point> points, int iterations, double error, int minimum, ModelFromPoints mfp,
+    RANSAC(int n, vector<Point> points, int iterations, double error, int minimum, ModelFromPoints mfp,
            DistancePointFromModel dpm, ModelError me) :
-            N(n), model(m), data(points), k(iterations), t(error), d(minimum), modelFromPoints(mfp),
+            N(n), data(points), k(iterations), t(error), d(minimum), modelFromPoints(mfp),
             distancePointModel(dpm), modelError(me) {
     }
 
@@ -44,7 +44,7 @@ public:
         }
 
         int i = 0;
-        Model bestFit = model;
+        Model bestFit;
         double bestError = std::numeric_limits<double>::max();
 
         while (i < k) {

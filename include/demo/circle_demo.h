@@ -44,13 +44,13 @@ private:
 
 struct CircleFromPoints {
     template<class Iterator>
-    Circle operator() (Iterator begin, Iterator end, bool &exists) {
+    inline Circle operator() (Iterator begin, Iterator end, bool &exists) {
         return Circle(begin, end, exists);
     }
 };
 
 struct DistancePointFromCircle {
-    double operator()(Circle c, Point2d p) {
+    inline double operator()(Circle c, Point2d p) {
         return c.distance(p);
     }
 };
@@ -58,7 +58,7 @@ struct DistancePointFromCircle {
 
 struct CircleError {
     template<class Iterator>
-    double operator()(Circle c, Iterator begin, Iterator end) {
+    inline double operator()(Circle c, Iterator begin, Iterator end) {
         return c.error(begin, end);
     }
 };
